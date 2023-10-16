@@ -26,5 +26,6 @@ Route::prefix('user')->group(function () {
     Route::post('/', [UserApiController::class, 'loadUser'])->middleware('jwt.verify');
     Route::post('forgot-password', [UserApiController::class, 'forgotPassword'])->middleware('guest')->name('forgot.password');
     Route::post('reset-password', [UserApiController::class, 'resetPassword'])->middleware('guest')->name('password.update');
+    Route::get('logout', [UserApiController::class, 'jwtTokenLogout'])->middleware('jwt.verify');
 });
 

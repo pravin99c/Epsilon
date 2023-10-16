@@ -311,6 +311,8 @@ Thanks,<br>
                                                     color: #2a2a2a; font-family: "Asap", Helvetica, sans-serif; font-size: 16px;
                                                     line-height: 150%; text-align: center; padding-top:9px; padding-right: 18px;
                                                     padding-bottom: 9px; padding-left: 18px;' valign="top">Not to worry, we got you! Let’s get you a new password.
+                                                    <br>
+                                                     This request villed for 5 minutes.
                                                     <br></br>
                                                     </td>
                                                 </tr>

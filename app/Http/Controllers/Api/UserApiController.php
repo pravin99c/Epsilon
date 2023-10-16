@@ -43,7 +43,6 @@ class UserApiController extends Controller
                 'success' => true,
                 'user' => $user,
                 'message' => 'user login success',
-                'popup' =>false,
             ];
 
             // Login Successful
@@ -70,19 +69,19 @@ class UserApiController extends Controller
         ], 200);
     }
 
-    public function jwtLogout(Request $request) {
+    public function jwtTokenLogout(Request $request) {
         $token = $request->bearerToken() ?? [];
         try {
             JWTAuth::setToken($token)->invalidate(true);
 
             return response()->json([
               'success' => true,
-              'message' => 'user logout success',
+              'message' => 'User successfully logged out',
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
               'success' => false,
-              'message' => $e->getMessage(),
+              'message' => 'User logout field message: '. $e->getMessage(),
             ], 401);
         }
 
@@ -121,7 +120,7 @@ class UserApiController extends Controller
         if ($status === Password::RESET_LINK_SENT) {
             return response()->json([
                 'success' => true,
-                'message' => 'User requested reset password sent successfully',
+                'message' => 'User requested reset password sent email successfully',
             ]);
         } else {
             return response()->json([
@@ -155,8 +154,9 @@ class UserApiController extends Controller
         if ($status === Password::PASSWORD_RESET) {
             $data = [
                 'success' => true,
-                'message' => 'password has been successfully recovered.',
+                'message' => 'User password has been successfully recovered.',
             ];
+
             $user = User::where('email', $request->email)->first();
 
             return response()->json($data, 200)
@@ -168,9 +168,7 @@ class UserApiController extends Controller
 
         return response()->json([
             'success' => false,
-            'errors' => [
-                'password recovery failed',
-            ],
+            'errors' => 'User password recovery failed',
         ]);
     }
 }
