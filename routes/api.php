@@ -15,16 +15,12 @@ use App\Http\Controllers\Api\UserApiController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::prefix('user')->group(function () {
     Route::post('register', [UserApiController::class, 'register']);
     Route::post('login', [UserApiController::class, 'authentication']);
 
     Route::post('/', [UserApiController::class, 'loadUser'])->middleware('jwt.verify');
-    Route::post('forgot-password', [UserApiController::class, 'forgotPassword'])->middleware('guest')->name('forgot.password');
+    Route::post('forgot-password', [UserApiController::class, 'forgotPassword'])->middleware('guest')->name('password.forgot');
     Route::post('reset-password', [UserApiController::class, 'resetPassword'])->middleware('guest')->name('password.update');
     Route::get('logout', [UserApiController::class, 'jwtTokenLogout'])->middleware('jwt.verify');
 });

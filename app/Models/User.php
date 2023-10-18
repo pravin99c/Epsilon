@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use App\Traits\ModelCacheable;
-use App\Jobs\SendPasswordResetEmail;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Log;
+use App\Jobs\SendPasswordResetEmail;
+use Illuminate\Support\Facades\Cache;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -58,13 +59,21 @@ class User extends Authenticatable implements JWTSubject
 
     public function sendPasswordResetNotification($token)
     {
-        $url = env('FRONTEND_URL').'/reset-password?email='.$this->email.'&token='.$token;
-
+        $url = env('APP_URL').'/api/reset-password?email='.$this->email.'&token='.$token;
         try {
+            $key = 'user-password-reset:'.$this->email;
+            if(Cache::has($key)){
+                $apiRequest = Cache::get($key);
+
+                if($apiRequest == 'web') {
+                    $url = env('APP_URL').'/reset-password/?email='.$this->email.'&token='.$token;
+                }
+            }
             // send a mail to the user to reset their password
             SendPasswordResetEmail::dispatch($url, $this->email, $this->name);
         } catch (\Exception $e) {
             Log::error('User@sendPasswordResetNotification failed: '.$e->getMessage());
         }
     }
+
 }
