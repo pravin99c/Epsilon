@@ -48037,7 +48037,7 @@ mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' vi
 }
 [data-kt-app-layout=dark-sidebar] .app-sidebar .menu .menu-item .menu-link.active {
 transition: color 0.2s ease;
-background-color: var(--bs-red);
+background-color: rgb(244 246 250 / 20%);
 color: var(--kt-primary-inverse);
 }
 [data-kt-app-layout=dark-sidebar] .app-sidebar .menu .menu-item .menu-link.active .menu-title {

@@ -45,7 +45,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'error' => 'email not exist please check and try again',
+                'error' => 'Invalid credentials',
             ]);
         }
         RateLimiter::clear($this->throttleKey());
