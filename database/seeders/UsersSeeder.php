@@ -4,10 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class UserSeeder extends Seeder
+class UsersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -21,6 +22,8 @@ class UserSeeder extends Seeder
             'phone_number' => '1111111111'
         ];
 
-        User::create($data);
+        $role = Role::where('name','admin')->first();
+        $user = User::updateOrCreate(['email' => $data['email']], $data);
+        $user->assignRole($role['id'] ?? 0);
     }
 }

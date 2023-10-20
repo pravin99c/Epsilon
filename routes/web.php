@@ -7,7 +7,9 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\User\ChangePasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Roles\RoleController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Permissions\PermissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,4 +54,15 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'as' => 'user.'], func
 
     Route::get('change-password', [ChangePasswordController::class, 'index'])->name('change-password');
     Route::post('change-password', [ChangePasswordController::class, 'create'])->name('change-password');
+});
+
+
+Route::group(['prefix' => 'roles', 'as' => 'roles.'], function () {
+    Route::get('/', [RoleController::class, 'view'])->middleware('auth')->name('view');
+    Route::post('/', [RoleController::class, 'index'])->name('index');
+});
+
+Route::group(['prefix' => 'permissions', 'as' => 'permissions.'], function () {
+    Route::get('/', [PermissionController::class, 'view'])->middleware('auth')->name('view');
+    Route::post('/', [PermissionController::class, 'index'])->name('index');
 });

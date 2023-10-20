@@ -1,20 +1,16 @@
 "use strict";
 
 var KTSubscriptionsAdvanced = function () {
-    // Shared variables
     var table;
     var datatable;
 
     var initCustomFieldsDatatable = function () {
-        // Define variables
         const addButton = document.getElementById('kt_create_new_custom_fields_add');
 
-        // Duplicate input fields
         const fieldName = table.querySelector('tbody tr td:first-child').innerHTML;
         const fieldValue = table.querySelector('tbody tr td:nth-child(2)').innerHTML;
         const deleteButton = table.querySelector('tbody tr td:last-child').innerHTML;
 
-        // Init datatable --- more info on datatables: https://datatables.net/manual/
         datatable = $(table).DataTable({
             "info": false,
             'order': [],
@@ -36,7 +32,6 @@ var KTSubscriptionsAdvanced = function () {
                 deleteButton
             ]).draw().node();
 
-            // Add custom class to last column -- more info: https://datatables.net/forums/discussion/22341/row-add-cell-class
             $(rowNode).find('td').eq(2).addClass('text-end');
 
             // Re-calculate index
@@ -68,7 +63,6 @@ var KTSubscriptionsAdvanced = function () {
             // Select parent row
             const parent = e.target.closest('tr');
 
-            // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
             Swal.fire({
                 text: "Are you sure you want to delete this field ?",
                 icon: "warning",
@@ -114,7 +108,7 @@ var KTSubscriptionsAdvanced = function () {
             table = document.getElementById('kt_create_new_custom_fields');
 
             initCustomFieldsDatatable();
-            initCustomFieldRowIndex();            
+            initCustomFieldRowIndex();
             deleteCustomField();
         }
     }
