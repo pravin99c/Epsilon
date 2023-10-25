@@ -60,6 +60,10 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'as' => 'user.'], func
 Route::group(['prefix' => 'roles', 'as' => 'roles.'], function () {
     Route::get('/', [RoleController::class, 'view'])->middleware('auth')->name('view');
     Route::post('/', [RoleController::class, 'index'])->name('index');
+    Route::get('/create', [RoleController::class, 'createView'])->name('create');
+    Route::post('/create', [RoleController::class, 'create'])->name('create');
+    Route::get('/edit/{id}', [RoleController::class, 'edit'])->name('edit');
+    Route::post('/update', [RoleController::class, 'update'])->name('update');
 });
 
 Route::group(['prefix' => 'permissions', 'as' => 'permissions.'], function () {

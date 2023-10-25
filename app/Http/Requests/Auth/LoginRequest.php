@@ -27,7 +27,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email', 'exists:users,email'],
+            'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
         ];
     }
@@ -76,14 +76,6 @@ class LoginRequest extends FormRequest
     public function throttleKey(): string
     {
         return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
-    }
-
-    public function messages() {
-        return [
-            'email.required' => 'Email is required',
-            'email.string' => 'Email mast be a string',
-            'email.exists' => 'Email does not exist',
-        ];
     }
 
 }

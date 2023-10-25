@@ -45,7 +45,6 @@ class PermissionController extends Controller
             "recordsFiltered"=> $count,
         ];
         $data['data'] = $permission_data->skip($start)->take((int)$length)->get();
-        // dd($data);
         return response()->json($data);
     }
 }

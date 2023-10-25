@@ -14,6 +14,7 @@
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
 	<!--end::Global Stylesheets Bundle-->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <x-toster></x-toster>
 </head>
 <!--end::Head-->
@@ -27,5 +28,34 @@
     <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/custom/authentication/sign-in/general.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script>
+        @if(Session::has('message'))
+           toastr.options =
+           {
+               "closeButton" : true,
+               "progressBar" : true
+           }
+           toastr.success("{{ session('message') }}", "success");
+       @endif
+
+       @if(Session::has('error'))
+           toastr.options =
+           {
+               "closeButton" : true,
+               "progressBar" : true
+           }
+           toastr.error("{{ session('error') }}");
+       @endif
+
+       @if(Session::has('warning'))
+           toastr.options =
+           {
+               "closeButton" : true,
+               "progressBar" : true
+           }
+           toastr.warning("{{ session('warning') }}");
+       @endif
+    </script>
 </body>
 </html>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Roles;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Permission;
 
 
 class RoleController extends Controller
@@ -26,9 +27,8 @@ class RoleController extends Controller
         if ($order) {
             $sort_query = $request->columns[$order]['data'];
         }
-        $start_number = intval((int)$start * (int)$length);
         if(!empty($search)) {
-            $role_data = Role::where('name', 'like', '%' . $search . '%')->orWhere('email','like','%' . $search . '%');
+            $role_data = Role::where('name', 'like', '%' . $search . '%');
         }else {
             if (!empty($sort_order) && !empty($sort_query)) {
                 $role_data =Role::orderBy($sort_query,$sort_order);
@@ -45,8 +45,21 @@ class RoleController extends Controller
             "recordsTotal"=> $count,
             "recordsFiltered"=> $count,
         ];
-        $data['data'] = $role_data->skip($start_number)->take((int)$length)->get();
+        $data['data'] = $role_data->skip($start)->take((int)$length)->get();
         return response()->json($data);
+    }
+
+    public function createView(Request $request) {
+        $permissions = Permission::all()->groupBy('group')->map(function ($groupPermissions) {
+            return $groupPermissions->map(function ($permission) {
+                return [
+                    'id' => $permission->id,
+                    'name' => $permission->name,
+                ];
+            });
+        })->toArray();
+
+        return view('roles.create', compact('permissions'));
     }
 
     // role create and add role permissions
@@ -54,8 +67,19 @@ class RoleController extends Controller
         // todo Auto-generated method stub
     }
 
-    public function edit($id, $request) {
-        // todo Auto-generated method stub
+    public function edit($id) {
+        dd(decrypt(encrypt($id)));
+        $role = Role::find($id);
+        $roleHasPermission = collect($role->permissions)->pluck('id')->toArray();
+        $permissions = Permission::all()->groupBy('group')->map(function ($groupPermissions) {
+            return $groupPermissions->map(function ($permission) {
+                return [
+                    'id' => $permission->id,
+                    'name' => $permission->name,
+                ];
+            });
+        })->toArray();
+        return view('roles.update', compact('role', 'roleHasPermission', 'permissions'));
     }
 
     public function update($id, $request) {
