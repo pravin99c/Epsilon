@@ -3,13 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Roles\RoleController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\User\ChangePasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Roles\RoleController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Permissions\PermissionController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +47,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::group(['prefix' => 'user', 'middleware' => 'auth', 'as' => 'user.'], function () {
+Route::group(['prefix' => 'users', 'middleware' => 'auth', 'as' => 'users.'], function () {
     Route::get('profile/overview', [ProfileController::class, 'overview'])->name('profile.overview');
     Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::PUT('profile/update', [ProfileController::class, 'update'])->name('profile.update');
@@ -54,16 +55,27 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'as' => 'user.'], func
 
     Route::get('change-password', [ChangePasswordController::class, 'index'])->name('change-password');
     Route::post('change-password', [ChangePasswordController::class, 'create'])->name('change-password');
+
+    //User crud routes
+    Route::get('/', [UserController::class, 'view'])->name('view');
+    Route::get('/create', [UserController::class, 'createView'])->name('create');
+    Route::get('/edit/{id}', [UserController::class, 'edit'])->name('edit');
+    Route::get('/view/{id}', [UserController::class, 'userView'])->name('userView');
+    Route::post('/', [UserController::class, 'index'])->name('index');
+    Route::post('/create', [UserController::class, 'create'])->name('create');
+    Route::put('/update/{id}', [UserController::class, 'update'])->name('update');
 });
 
 
 Route::group(['prefix' => 'roles', 'as' => 'roles.'], function () {
     Route::get('/', [RoleController::class, 'view'])->middleware('auth')->name('view');
     Route::post('/', [RoleController::class, 'index'])->name('index');
-    Route::get('/create', [RoleController::class, 'createView'])->name('create');
-    Route::post('/create', [RoleController::class, 'create'])->name('create');
-    Route::get('/edit/{id}', [RoleController::class, 'edit'])->name('edit');
-    Route::post('/update', [RoleController::class, 'update'])->name('update');
+    Route::get('create', [RoleController::class, 'createView'])->name('create');
+    Route::post('create', [RoleController::class, 'create'])->name('create');
+    Route::get('edit/{id}', [RoleController::class, 'edit'])->name('edit');
+    Route::put('update/{id}', [RoleController::class, 'update'])->name('update');
+    Route::get('view/{id}', [RoleController::class, 'show'])->name('show');
+    Route::delete('delete/{id}', [RoleController::class, 'delete'])->name('delete');
 });
 
 Route::group(['prefix' => 'permissions', 'as' => 'permissions.'], function () {

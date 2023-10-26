@@ -54,8 +54,8 @@
                 </div>
                 <!--end::Page title-->
             </div>
-            <x-setting-tab></x-setting-tab>
             <!--end::Toolbar container-->
+            <x-back-button href="{{ route('roles.index') }}"></x-back-button>
         </div>
         <!--end::Toolbar-->
 
@@ -71,7 +71,9 @@
                             <!--begin::Card body-->
                             <div class="card-body p-12">
                                 <!--begin::Form-->
-                                <form action="#" id="kt_invoice_form">
+                                <form action="{{ route('roles.update', encrypt($role->id)) }}" id="role_and_permission" method="POST">
+                                    @csrf
+                                    @method('PUT')
                                     <div class="row mb-8">
 
                                         <div class="col-xl-2">
@@ -82,13 +84,9 @@
                                         <div class="col-xl-10 fv-row fv-plugins-icon-container">
 
                                             <input type="text" class="form-control form-control-solid"
-                                                placeholder="Enter Role Name" name="role_name" value="">
+                                                placeholder="Enter Role Name" name="name" value="{{ isset($role->name) ? $role->name : old('name') }}">
 
-
-                                            <span class="text-danger" id="role_name"></span>
-
-                                            <div class="fv-plugins-message-container invalid-feedback"></div>
-                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                            <span class="text-danger" id="name"></span>
                                         </div>
                                     </div>
                                     <!--begin::Separator-->
@@ -124,7 +122,8 @@
                                                             <div class="checkbox-list">
                                                                 @foreach ($permission as $value)
                                                                     <label class="checkbox text-gray-900 me-5 my-2 checkbox-success">
-                                                                        <input type="checkbox" name="permissions[]" class="form-check-input permission_{{ $group }}" value="{{ $value['id'] }}"/>
+                                                                        <input type="checkbox" name="permissions[]" class="form-check-input permission_{{ $group }}" value="{{ $value['id'] }}"
+                                                                        {{ isset($role) ? (in_array($value['id'], $roleHasPermissions) ? 'checked' : '') : '' }} />
                                                                         <span>{{ $value['name'] }}</span>
                                                                     </label>
                                                                 @endforeach
@@ -134,6 +133,10 @@
                                                 @endforeach
                                             @endisset
                                         </div>
+                                    </div>
+                                    <div class="card-footer d-flex justify-content-end py-6 px-9">
+                                        <x-button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</x-button>
+                                        <x-button type="submit" class="btn btn-primary" id="btn_role_and_permission">Save Changes</x-button>
                                     </div>
                                 </div>
                             </form>
@@ -157,6 +160,7 @@
     <script>
         $(document).ready(function() {
             var permissions = '{!! json_encode($permissions) !!}';
+
             // select-all permission with all groups
             $.each(JSON.parse(permissions), function(keys, values) {
                 $(`#select-all`).click(function() {
@@ -195,10 +199,7 @@
                             $(`.permission_${keys}`).each(function() {
                                 $(`.permission_${keys}`).prop('checked', false);
                             })
-
-                            $('#select-all').prop("checked", false);
                         }
-
                     });
 
                     //checked select all and select-group-by-option as per the change permission
@@ -229,6 +230,12 @@
                     });
 
                 });
+
+                if ($('.select-by-group').length == $('.select-by-group:checked').length) {
+                    $('#select-all').prop("checked", true);
+                } else {
+                    $('#select-all').prop("checked", false);
+                }
             });
         });
     </script>

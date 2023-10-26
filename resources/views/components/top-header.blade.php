@@ -109,7 +109,15 @@
                         <!--end:Menu sub-->
                     </div>
                     <!--end:Menu item-->
-
+                    <a href="{{ route('users.view') }}"
+                        class="menu-item {{ Route::currentRouteName() ==  'users' ? 'here show' : ''}} menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
+                        <!--begin:Menu link-->
+                        <span class="menu-link">
+                            <span class="menu-title">Users</span>
+                            <span class="menu-arrow d-lg-none"></span>
+                        </span>
+                        <!--end:Menu link-->
+                    </a>
                 </div>
                 <!--end::Menu-->
             </div>

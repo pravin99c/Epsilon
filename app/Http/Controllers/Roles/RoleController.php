@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Roles;
 
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Crypt;
 use Spatie\Permission\Models\Permission;
 
 
@@ -45,7 +47,7 @@ class RoleController extends Controller
             "recordsTotal"=> $count,
             "recordsFiltered"=> $count,
         ];
-        $data['data'] = $role_data->skip($start)->take((int)$length)->get();
+        $data['data'] = $role_data->where('name', '!=' ,'admin')->skip($start)->take((int)$length)->get();;
         return response()->json($data);
     }
 
@@ -64,13 +66,20 @@ class RoleController extends Controller
 
     // role create and add role permissions
     public function create(Request $request) {
-        // todo Auto-generated method stub
+        $role = Role::where('name', $request->name)->first();
+
+        if (! empty($role)) {
+            return redirect()->back()->with('error', 'Role already exists');
+        }
+
+        $role = Role::create(['name' => $request->name]);
+        $role->syncPermissions($request->permissions ?? []);
+        return redirect()->route('roles.index')->with('message', 'Role create successful');
     }
 
     public function edit($id) {
-        dd(decrypt(encrypt($id)));
         $role = Role::find($id);
-        $roleHasPermission = collect($role->permissions)->pluck('id')->toArray();
+        $roleHasPermissions = collect($role->permissions)->pluck('id')->toArray();
         $permissions = Permission::all()->groupBy('group')->map(function ($groupPermissions) {
             return $groupPermissions->map(function ($permission) {
                 return [
@@ -79,14 +88,32 @@ class RoleController extends Controller
                 ];
             });
         })->toArray();
-        return view('roles.update', compact('role', 'roleHasPermission', 'permissions'));
+        return view('roles.update', compact('role', 'roleHasPermissions', 'permissions'));
     }
 
-    public function update($id, $request) {
-        // Todo Auto-generated method stub
+    public function update($id, Request $request) {
+        $role = Role::find(decrypt($id));
+
+        if(empty($role)) {
+            return redirect()->back()->with('error', 'Role not exists');
+        }
+
+        $role->update(['name' => $request->name]);
+        Log::info("data",[$request->permissions]);
+        $role->syncPermissions($request->permissions ?? []);
+        return redirect()->route('roles.index')->with('message', 'Role permission updated successful');
+
     }
 
-    public function delete($id, $request) {
-        // TODO Auto-generated method stub
+    public function show($id){
+        $role = Role::find($id);
+        $rolePermission = $role->permissions;
+        return view('roles.view', compact('role', 'rolePermission'));
+    }
+
+    public function delete($id) {
+        $role = Role::find($id);
+        $role->delete();
+        return view('roles.index')->with('message', 'Role deleted successfully');
     }
 }

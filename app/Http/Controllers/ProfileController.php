@@ -42,7 +42,7 @@ class ProfileController extends Controller
 
         // update profile details
         $user->update($updateData);
-        return Redirect::route('user.profile.edit')->with('message', 'User profile updated successfully');
+        return Redirect::route('users.profile.edit')->with('message', 'User profile updated successfully');
     }
 
     /**

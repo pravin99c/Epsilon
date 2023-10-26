@@ -14,8 +14,7 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Account
-                        Overview</h1>
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Users</h1>
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -30,14 +29,14 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Role</li>
+                        <li class="breadcrumb-item text-muted">Users</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
                 </div>
                 <!--end::Page title-->
             </div>
-          
+
             <!--end::Toolbar container-->
         </div>
         <!--end::Toolbar-->
@@ -67,7 +66,7 @@
                                 </span>
                                 <!--end::Svg Icon-->
                                 <input type="text" data-kt-customer-table-filter="search"
-                                    class="form-control form-control-solid w-250px ps-15" placeholder="Search Customers">
+                                    class="form-control form-control-solid w-250px ps-15" placeholder="Search Users">
                             </div>
                             <!--end::Search-->
                         </div>
@@ -77,8 +76,8 @@
                             <!--begin::Toolbar-->
                             <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
                                 <!--begin::Add customer-->
-                                <a class="btn btn-primary" href="{{ route('roles.create') }}"
-                                    data-bs-target="#kt_modal_add_customer">Add Role</a>
+                                <a class="btn btn-primary" href="{{ route('users.create') }}"
+                                    data-bs-target="#kt_modal_add_customer">Add Users</a>
                                 <!--end::Add customer-->
                             </div>
                             <!--end::Toolbar-->
@@ -103,7 +102,7 @@
                             <div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="roles_table">
+                                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="users_table">
                                             <thead class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                                 <tr class="datatable-row" style="left: 0px;">
                                                     <th data-field="RecordID"
@@ -111,7 +110,15 @@
                                                         data-sort="asc"><span style="width: 40px;">#<i
                                                                 class="flaticon2-arrow-up"></i></span></th>
                                                     <th data-field="OrderID" class="datatable-cell datatable-cell-sort">
-                                                        <span style="width: 250px;">Role Name</span></th>
+                                                        <span style="width: 250px;">Profile</span></th>
+                                                    <th data-field="OrderID" class="datatable-cell datatable-cell-sort">
+                                                        <span style="width: 250px;">First Name</span></th>
+                                                    <th data-field="OrderID" class="datatable-cell datatable-cell-sort">
+                                                        <span style="width: 250px;">Last Name</span></th>
+                                                    <th data-field="OrderID" class="datatable-cell datatable-cell-sort">
+                                                        <span style="width: 250px;">Email</span></th>
+                                                    <th data-field="OrderID" class="datatable-cell datatable-cell-sort">
+                                                        <span style="width: 250px;">Phone No</span></th>
                                                     <th data-field="OrderID" class="datatable-cell datatable-cell-sort">
                                                         <span style="width: 250px;">Create At</span></th>
                                                     <th data-field="Actions" data-autohide-disabled="false"
@@ -137,6 +144,7 @@
 @endsection
 
 @section('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
-    <script src="{{ asset('assets/js/roles/role_table.js') }}"></script>
+    <script src="{{ asset('assets/js/users/user_table.js') }}"></script>
 @endsection

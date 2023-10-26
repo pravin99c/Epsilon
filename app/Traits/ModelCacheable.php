@@ -14,7 +14,7 @@ trait ModelCacheable
         $model = new self();
 
         $modelName = get_class($model);
-        if (Cache::store('system-redis')->has($modelName.':'.$id)) {
+        if (Cache::has($modelName.':'.$id)) {
             $modelArray = $model->fromJson(Cache::get($modelName.':'.$id));
             if ($modelArray != null) {
                 return $model->reloadInstanceFromJson($modelArray);
@@ -26,9 +26,26 @@ trait ModelCacheable
         if (empty($model)) {
             return $model;
         }
-        Cache::store('system-redis')->put($modelName.':'.$id, $model->toJson(), now()->addMinutes($expiredMinutes));
+        Cache::put($modelName.':'.$id, $model->toJson(), now()->addMinutes($expiredMinutes));
 
         return $model;
+    }
+
+    private function reloadInstanceFromJson($data)
+    {
+        $cachedModel = $this->newInstance($data);
+        $cachedModel->id = $data['id'];
+
+        foreach ($data as $key => $value) {
+            if (! in_array($key, ['id', 'created_at', 'updated_at', 'deleted_at'])) {
+                continue;
+            }
+            if (! isset($cachedModel->$key) && ! is_array($data[$key])) {
+                $cachedModel->$key = $value;
+            }
+        }
+
+        return $cachedModel;
     }
 }
 

@@ -1,42 +1,55 @@
-
 $( document ).ready(function() {
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
-    var permissionsTable = $('#permissions_table').DataTable({
+    var usersTable = $('#users_table').DataTable( {
         responsive: true,
         searchDelay: 200,
         processing: true,
         serverSide: true,
-        order: [1, 'asc'],
+        order: [2, 'asc'],
         ajax: {
-            url: '/permissions',
+            url: '/users',
             type: 'POST',
             headers: {
                 'X-CSRF-TOKEN': csrfToken
             },
         },
         columns:[
-            { data:'id', orderable:false, class: "text-center",},
-            { data:'name',class: "text-center",},
-            { data:'slug',class: "text-center",},
+            { data:'id', orderable:false, class: "text-center"},
             {
-                data:'created_at',
+                data:'profile_picture',
+                class: "text-center",
+                render: function (row, type, data, set) {
+                    if (row === undefined || row === null){
+                        var profilePicture = `<div class="symbol symbol-50 symbol-circle" data-toggle="tooltip" title="" data-original-title="Nick Mana"><span class="symbol-label fs-2x fw-semibold text-primary bg-light-success">${(data.first_name.charAt(0))}</span></div>`
+                    } else {
+                        var profilePicture = `<div class="symbol symbol-50 symbol-circle" data-toggle="tooltip" title="" data-original-title="Nick Mana">
+                            <img alt="Pic" src="/storage/${row}">
+                        </div>`
+                    }
+                    return profilePicture;
+                },
+            },
+            { data:'first_name', class: "text-center" },
+            { data:'last_name', class: "text-center" },
+            { data:'email', class: "text-center" },
+            { data:'phone_number', class: "text-center" },
+            { data: 'created_at',
                 autoHide: false,
                 orderable:false,
                 class: "text-center",
                 "render": function ( row, type, set) {
                     let dateString_ = moment(row.created_at).format("DD MMM YYYY");
                     return dateString_
-                }
-            },
+                }},
             {
                 data:'id',
                 sortable: false,
                 autoHide: false,
                 orderable:false,
                 class: "text-center",
-                "render": function (data, row, type, set) {
-                    var html =`<a href="#" class="btn btn-icon btn-custom btn-light btn-sm btn-active-light btn-active-color-primary">
-                            <span class="svg-icon svg-icon-3 svg-icon-md-2"><!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/General/Settings-1.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                "render": function (id, row, type, set) {
+                    var html =`<a href="/users/view/${id}" class="btn btn-icon btn-custom btn-light btn-sm btn-active-light btn-active-color-primary">
+                            <span class="svg-icon svg-icon-3 svg-icon-md-2" title="View"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <rect x="0" y="0" width="24" height="24"></rect>
                                     <path d="M7,3 L17,3 C19.209139,3 21,4.790861 21,7 C21,9.209139 19.209139,11 17,11 L7,11 C4.790861,11 3,9.209139 3,7 C3,4.790861 4.790861,3 7,3 Z M7,9 C8.1045695,9 9,8.1045695 9,7 C9,5.8954305 8.1045695,5 7,5 C5.8954305,5 5,5.8954305 5,7 C5,8.1045695 5.8954305,9 7,9 Z" fill="currentColor"></path>
@@ -44,8 +57,8 @@ $( document ).ready(function() {
                                 </g>
                             </svg><!--end::Svg Icon--></span>
                         </a>
-                        <a href="#" class="btn btn-icon btn-custom btn-light btn-sm btn-active-light btn-active-color-primary mx-3">
-                            <span class="svg-icon svg-icon-3 svg-icon-md-2"><!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Communication/Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <a href="/users/edit/${id}" class="btn btn-icon btn-custom btn-light btn-sm btn-active-light btn-active-color-primary mx-3">
+                            <span class="svg-icon svg-icon-3 svg-icon-md-2" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <rect x="0" y="0" width="24" height="24"></rect>
                                     <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="currentColor" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953) "></path>
@@ -53,8 +66,8 @@ $( document ).ready(function() {
                                 </g>
                             </svg><!--end::Svg Icon--></span>
                         </a>
-                        <a href="#" class="btn btn-icon btn-custom btn-light btn-sm btn-active-light btn-active-color-primary">
-                        <span class="svg-icon svg-icon-3 svg-icon-md-2"><!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/General/Trash.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <a href="javascript:void(0);" class="btn btn-icon btn-custom btn-light btn-sm btn-active-light btn-active-color-primary">
+                        <span class="svg-icon svg-icon-3 svg-icon-md-2" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <rect x="0" y="0" width="24" height="24"></rect>
                                 <path d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z" fill="currentColor" fill-rule="nonzero"></path>
@@ -64,14 +77,16 @@ $( document ).ready(function() {
                         </span>
                         </a>
                     `
-                    return '-';
+                    return html;
                 }
             }
         ]
     });
     const filterSearch = document.querySelector('[data-kt-customer-table-filter="search"]');
     filterSearch.addEventListener('keyup', function (e) {
-        permissionsTable.search("",false).draw();
-        permissionsTable.search(e.target.value).draw();
+        usersTable.search("",false).draw();
+        usersTable.search(e.target.value).draw();
     });
+
+
 });

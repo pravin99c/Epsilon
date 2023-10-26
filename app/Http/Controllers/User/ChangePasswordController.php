@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 class ChangePasswordController extends Controller
 {
     public function index() {
-        return view('user.change-password');
+        return view('users.change-password');
     }
 
     public function create(ChangePasswordRequest $request) {

@@ -12,7 +12,7 @@
             <!--end::Heading-->
             <!--begin::Menu item-->
             <div class="menu-item px-3">
-                <a href="{{ route('user.change-password') }}" class="menu-link px-3">Change Password</a>
+                <a href="{{ route('users.change-password') }}" class="menu-link px-3">Change Password</a>
             </div>
             <!--end::Menu item-->
         </div>

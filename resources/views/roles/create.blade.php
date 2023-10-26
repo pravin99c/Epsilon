@@ -54,8 +54,8 @@
                 </div>
                 <!--end::Page title-->
             </div>
-            <x-setting-tab></x-setting-tab>
             <!--end::Toolbar container-->
+            <x-back-button href="{{ route('roles.index') }}"></x-back-button>
         </div>
         <!--end::Toolbar-->
 
@@ -71,7 +71,8 @@
                             <!--begin::Card body-->
                             <div class="card-body p-12">
                                 <!--begin::Form-->
-                                <form action="#" id="kt_invoice_form">
+                                <form action="{{ route('roles.create') }}" id="role_and_permission" class="role_and_permission" method="POST">
+                                    @csrf
                                     <div class="row mb-8">
 
                                         <div class="col-xl-2">
@@ -82,13 +83,8 @@
                                         <div class="col-xl-10 fv-row fv-plugins-icon-container">
 
                                             <input type="text" class="form-control form-control-solid"
-                                                placeholder="Enter Role Name" name="role_name" value="">
-
-
-                                            <span class="text-danger" id="role_name"></span>
-
-                                            <div class="fv-plugins-message-container invalid-feedback"></div>
-                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                                placeholder="Enter Role Name" name="name" value="{{ old('name') }}">
+                                            <span class="text-danger" id="role_name" ></span>
                                         </div>
                                     </div>
                                     <!--begin::Separator-->
@@ -135,6 +131,10 @@
                                             @endisset
                                         </div>
                                     </div>
+                                    <div class="card-footer d-flex justify-content-end py-6 px-9">
+                                        <x-button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</x-button>
+                                        <x-button type="submit" class="btn btn-primary" id="btn_role_and_permission">Save Changes</x-button>
+                                    </div>
                                 </div>
                             </form>
                             <!--end::Form-->
@@ -154,6 +154,7 @@
 @endsection
 
 @section('script')
+<script src="{{ asset('assets/js/roles/validation.js') }}"></script>
     <script>
         $(document).ready(function() {
             var permissions = '{!! json_encode($permissions) !!}';
