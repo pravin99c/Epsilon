@@ -14,12 +14,18 @@ $( document ).ready(function() {
             },
         },
         columns:[
-            { data:'id', orderable:false, class: "text-center"},
-            { data:'name', class: "text-center" },
+            {
+                data: 'id',
+                class: "text-center ",
+                render: function(data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }
+            },
+            { data:'name', class: "text-center ls-1" },
             { data: 'created_at',
                 autoHide: false,
                 orderable:false,
-                class: "text-center",
+                class: "text-center ls-1",
                 "render": function ( row, type, set) {
                     let dateString_ = moment(row.created_at).format("DD MMM YYYY");
                     return dateString_
@@ -29,9 +35,9 @@ $( document ).ready(function() {
                 sortable: false,
                 autoHide: false,
                 orderable:false,
-                class: "text-center",
+                class: "text-center ls-1",
                 "render": function (id, row, type, set) {
-                    var html =`<a href="/roles/view/${id}" class="btn btn-icon btn-custom btn-light btn-sm btn-active-light btn-active-color-primary">
+                    var html =`<a href="/roles/view/${type.role_id}" class="btn btn-icon btn-custom btn-light btn-sm btn-active-light btn-active-color-primary">
                             <span class="svg-icon svg-icon-3 svg-icon-md-2" title="View"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <rect x="0" y="0" width="24" height="24"></rect>
@@ -40,7 +46,7 @@ $( document ).ready(function() {
                                 </g>
                             </svg><!--end::Svg Icon--></span>
                         </a>
-                        <a href="/roles/edit/${id}" class="btn btn-icon btn-custom btn-light btn-sm btn-active-light btn-active-color-primary mx-3">
+                        <a href="/roles/edit/${type.role_id}" class="btn btn-icon btn-custom btn-light btn-sm btn-active-light btn-active-color-primary mx-3">
                             <span class="svg-icon svg-icon-3 svg-icon-md-2" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <rect x="0" y="0" width="24" height="24"></rect>

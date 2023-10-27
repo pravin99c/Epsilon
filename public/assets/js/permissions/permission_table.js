@@ -15,9 +15,15 @@ $( document ).ready(function() {
             },
         },
         columns:[
-            { data:'id', orderable:false, class: "text-center",},
-            { data:'name',class: "text-center",},
-            { data:'slug',class: "text-center",},
+            {
+                data: 'id',
+                class: "text-center",
+                render: function(data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }
+            },
+            { data:'name',class: "text-center ls-1",},
+            { data:'slug',class: "text-center ls-1",},
             {
                 data:'created_at',
                 autoHide: false,

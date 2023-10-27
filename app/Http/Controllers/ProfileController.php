@@ -17,12 +17,12 @@ class ProfileController extends Controller
      */
     public function overview(Request $request): View
     {
-        return view('user.overview');
+        return view('users.overview');
     }
 
     public function edit(Request $request): View
     {
-        return view('user.edit');
+        return view('users.edit');
     }
 
     /**

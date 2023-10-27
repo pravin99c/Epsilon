@@ -14,7 +14,13 @@ $( document ).ready(function() {
             },
         },
         columns:[
-            { data:'id', orderable:false, class: "text-center"},
+            {
+                data: 'id',
+                class: "text-center",
+                render: function(data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }
+            },
             {
                 data:'profile_picture',
                 class: "text-center",
@@ -29,10 +35,10 @@ $( document ).ready(function() {
                     return profilePicture;
                 },
             },
-            { data:'first_name', class: "text-center" },
-            { data:'last_name', class: "text-center" },
-            { data:'email', class: "text-center" },
-            { data:'phone_number', class: "text-center" },
+            { data:'first_name', class: "text-center ls-1" },
+            { data:'last_name', class: "text-center ls-1" },
+            { data:'email', class: "text-center ls-1" },
+            { data:'phone_number', class: "text-center ls-1" },
             { data: 'created_at',
                 autoHide: false,
                 orderable:false,
@@ -48,7 +54,7 @@ $( document ).ready(function() {
                 orderable:false,
                 class: "text-center",
                 "render": function (id, row, type, set) {
-                    var html =`<a href="/users/view/${id}" class="btn btn-icon btn-custom btn-light btn-sm btn-active-light btn-active-color-primary">
+                    var html =`<a href="/users/view/${type.user_id}" class="btn btn-icon btn-custom btn-light btn-sm btn-active-light btn-active-color-primary">
                             <span class="svg-icon svg-icon-3 svg-icon-md-2" title="View"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <rect x="0" y="0" width="24" height="24"></rect>
@@ -57,7 +63,7 @@ $( document ).ready(function() {
                                 </g>
                             </svg><!--end::Svg Icon--></span>
                         </a>
-                        <a href="/users/edit/${id}" class="btn btn-icon btn-custom btn-light btn-sm btn-active-light btn-active-color-primary mx-3">
+                        <a href="/users/edit/${type.user_id}" class="btn btn-icon btn-custom btn-light btn-sm btn-active-light btn-active-color-primary mx-3">
                             <span class="svg-icon svg-icon-3 svg-icon-md-2" title="Edit"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <rect x="0" y="0" width="24" height="24"></rect>

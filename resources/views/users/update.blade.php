@@ -65,7 +65,7 @@
                                  <!--begin::Separator-->
                                  <div class="separator separator-dashed my-10"></div>
                                  <!--end::Separator-->
-                                <form action="{{ route('users.update', $user->id) }}" id="users_update_form" method="POST">
+                                <form action="{{ route('users.update', encrypt($user->id)) }}" id="users_update_form" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <div class="row mb-6">

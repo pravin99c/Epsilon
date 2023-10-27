@@ -47,7 +47,10 @@ class UserController extends Controller
             "recordsTotal"=> $count,
             "recordsFiltered"=> $count,
         ];
-        $data['data'] = $user_data/*->where('email', '!=' ,env('Email') ?? 'admin@gmail.com')*/->skip($start)->take((int)$length)->get();;
+        $data['data'] = $user_data->where('email', '!=' ,env('Email') ?? 'admin@gmail.com')->skip($start)->take((int)$length)->get()->map(function ($record) {
+            $record->user_id = encrypt($record->id);
+            return $record;
+        });
         return response()->json($data);
     }
 
@@ -82,7 +85,7 @@ class UserController extends Controller
     }
 
     public function edit($id, Request $request) {
-        $user = User::findWithCache($id);
+        $user = User::findWithCache(decrypt($id));
         $roles = Role::where('name', '!=' ,'admin')->get();
         return view('users.update', compact('user','roles'));
     }
@@ -97,7 +100,7 @@ class UserController extends Controller
                 'dob'   => $request->dob ?? null,
             ];
 
-            $user = User::findWithCache($id);
+            $user = User::find(decrypt($id));
 
             if(empty($user)) {
                 return redirect()->back()->with('error', 'User not found');
@@ -111,6 +114,7 @@ class UserController extends Controller
     }
 
     public function userView($id) {
-        return view('users.view');
+        $user = User::findWithCache(decrypt($id));
+        return view('users.view', compact('user'));
     }
 }

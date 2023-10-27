@@ -40,9 +40,9 @@
     <!--end::Content wrapper-->
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-fluid">
-            <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+            <div class="row g-5 g-xl-5 mb-5 mb-xl-10">
                 <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 mb-md-4 mb-xl-5">
-                    <div class="card card-flush mb-5" style="background-color: #181c32;">
+                    <div class="card card-flush mb-5" style="background-color: #F1416C; background-image:url('/assets/media/patterns/vector-1.png')">
                         <div class="card-header pt-5">
                             <span class="svg-icon svg-icon-3x svg-icon-success "><svg xmlns="http://www.w3.org/2000/svg"
                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24"
@@ -61,48 +61,10 @@
                         </div>
                         <div class="card-body align-items-center">
 
-                            <span class="fs-2hx fw-bold text-white mt-2 me-2 lh-1 ls-n2" id="trainees">21</span>
+                            <span class="fs-2hx fw-bold text-white mt-2 me-2 lh-1 ls-n2" id="trainees">@isset($userCount) {{ $userCount }} @endisset</span>
 
                             <span class="text-white opacity-75 pt-1 fw-semibold fs-6 d-block">Total
-                                Trainees</span>
-
-                        </div>
-                    </div>
-                    <div class="card card-flush" style="background-color: #dd1845;">
-                        <div class="card-body align-items-center">
-
-                            <div class="d-flex flex-wrap">
-
-                                <div class="position-relative d-flex flex-center h-175px w-175px me-15 mb-7">
-                                    <div
-                                        class="position-absolute translate-middle start-50 top-50 d-flex flex-column flex-center">
-                                        <span class="fs-2qx fw-bold text-white" id="total_programs">1</span>
-                                        <span class="fs-6 fw-semibold text-center text-gray-200">Total Programs</span>
-                                    </div>
-                                    <canvas id="total_programs_chart"
-                                        style="display: block; box-sizing: border-box; height: 175px; width: 175px;"
-                                        width="175" height="175"></canvas>
-                                </div>
-
-
-                                <div class="d-flex flex-column justify-content-center flex-row-fluid pe-11 mb-5">
-
-                                    <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
-                                        <div class="bullet bg-success me-3"></div>
-                                        <div class="text-gray-200">Active</div>
-                                        <div class="ms-auto fw-bold text-gray-100 " id="active_programs">1</div>
-                                    </div>
-
-
-                                    <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
-                                        <div class="bullet bg-white me-3"></div>
-                                        <div class="text-gray-200">Inactive</div>
-                                        <div class="ms-auto fw-bold text-gray-100 " id="inactive_programs">0</div>
-                                    </div>
-
-                                </div>
-
-                            </div>
+                                Users</span>
 
                         </div>
                     </div>
@@ -122,156 +84,39 @@
                                             d="M17.6011961,15.0006174 C21.0077043,15.0378534 23.7891749,16.7601418 23.9984937,20.4 C24.0069246,20.5466056 23.9984937,21 23.4559499,21 L19.6,21 C19.6,18.7490654 18.8562935,16.6718327 17.6011961,15.0006174 Z M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z"
                                             fill="#000" fill-rule="nonzero"></path>
                                     </g>
-                                </svg></span>
+                                </svg>
+                            </span>
 
                         </div>
                         <div class="card-body align-items-center">
 
-                            <span class="fs-2hx fw-bold text-dark mt-2 me-2 lh-1 ls-n2" id="system_users">5</span>
+                            <span class="fs-2hx fw-bold text-dark mt-2 me-2 lh-1 ls-n2" id="system_users">@isset($roleCount ) {{ $roleCount   }} @endisset</span>
 
                             <span class="text-dark opacity-75 pt-1 fw-semibold fs-6 d-block">Total
-                                System Users</span>
-
-                        </div>
-                    </div>
-                    <div class="card card-flush" style="background-color: #181c32;">
-                        <div class="card-body align-items-center">
-
-                            <div class="d-flex flex-wrap">
-
-                                <div class="position-relative d-flex flex-center h-175px w-175px me-15 mb-7">
-                                    <div
-                                        class="position-absolute translate-middle start-50 top-50 d-flex flex-column flex-center">
-                                        <span class="fs-2qx fw-bold text-white" id="total_courses">4</span>
-                                        <span class="fs-6 fw-semibold text-center text-gray-200">Total Courses</span>
-                                    </div>
-                                    <canvas id="total_courses_chart"
-                                        style="display: block; box-sizing: border-box; height: 175px; width: 175px;"
-                                        width="175" height="175"></canvas>
-                                </div>
-
-
-                                <div class="d-flex flex-column justify-content-center flex-row-fluid pe-11 mb-5">
-
-                                    <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
-                                        <div class="bullet bg-primary me-3"></div>
-                                        <div class="text-gray-400">Active</div>
-                                        <div class="ms-auto fw-bold text-gray-100" id="active_courses">1</div>
-                                    </div>
-
-
-                                    <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
-                                        <div class="bullet bg-white me-3"></div>
-                                        <div class="text-gray-400">Inactive</div>
-                                        <div class="ms-auto fw-bold text-gray-100" id="inactive_courses">3</div>
-                                    </div>
-
-                                </div>
-
-                            </div>
+                                Roles</span>
 
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 mb-md-4 mb-xl-5">
-                    <div class="card card-flush mb-5" style="background-color: #dd1845;">
-                        <div class="card-body pt-5">
-
-                            <div class="d-flex flex-stack mt-7">
-
-                                <div class="text-gray-100 fw-semibold fs-6 me-2">Batches</div>
-
-
-                                <div class="d-flex align-items-senter">
-                                    <span class="text-gray-200 fw-bolder fs-6" id="batches">2</span>
-                                </div>
-
-                            </div>
-
-
-                            <div class="separator separator-dashed my-3"></div>
-
-
-                            <div class="d-flex flex-stack">
-
-                                <div class="text-gray-100 fw-semibold fs-6 me-2">Departments</div>
-
-
-                                <div class="d-flex align-items-senter">
-
-                                    <span class="svg-icon svg-icon-2 svg-icon-danger me-2">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect opacity="0.5" x="7.05026" y="15.5355" width="13" height="2"
-                                                rx="1" transform="rotate(-45 7.05026 15.5355)" fill="currentColor">
-                                            </rect>
-                                            <path
-                                                d="M9.17158 14.0284L9.17158 8.11091C9.17158 7.52513 8.6967 7.05025 8.11092 7.05025C7.52513 7.05025 7.05026 7.52512 7.05026 8.11091L7.05026 15.9497C7.05026 16.502 7.49797 16.9497 8.05026 16.9497L15.8891 16.9497C16.4749 16.9497 16.9498 16.4749 16.9498 15.8891C16.9498 15.3033 16.4749 14.8284 15.8891 14.8284L9.97158 14.8284C9.52975 14.8284 9.17158 14.4703 9.17158 14.0284Z"
-                                                fill="currentColor"></path>
-                                        </svg>
-                                    </span>
-
-
-                                    <span class="text-gray-200 fw-bolder fs-6" id="departments">6</span>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="separator separator-dashed my-3"></div>
-
-
-                            <div class="d-flex flex-stack mb-4">
-
-                                <div class="text-gray-100 fw-semibold fs-6 me-2">Designations</div>
-
-
-                                <div class="d-flex align-items-senter">
-
-                                    <span class="text-gray-200 fw-bolder fs-6" id="designations">8</span>
-
-                                </div>
-
-                            </div>
-
+                    <div class="card card-flush mb-5 bg-primary">
+                        <div class="card-header pt-5">
+                            <span class="svg-icon svg-icon-3x svg-icon-success ">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                        <path d="M12.9336061,16.072447 L19.36,10.9564761 L19.5181585,10.8312381 C20.1676248,10.3169571 20.2772143,9.3735535 19.7629333,8.72408713 C19.6917232,8.63415859 19.6104327,8.55269514 19.5206557,8.48129411 L12.9336854,3.24257445 C12.3871201,2.80788259 11.6128799,2.80788259 11.0663146,3.24257445 L4.47482784,8.48488609 C3.82645598,9.00054628 3.71887192,9.94418071 4.23453211,10.5925526 C4.30500305,10.6811601 4.38527899,10.7615046 4.47382636,10.8320511 L4.63,10.9564761 L11.0659024,16.0730648 C11.6126744,16.5077525 12.3871218,16.5074963 12.9336061,16.072447 Z" fill="#ffffff" fill-rule="nonzero"></path>
+                                        <path d="M11.0563554,18.6706981 L5.33593024,14.122919 C4.94553994,13.8125559 4.37746707,13.8774308 4.06710397,14.2678211 C4.06471678,14.2708238 4.06234874,14.2738418 4.06,14.2768747 L4.06,14.2768747 C3.75257288,14.6738539 3.82516916,15.244888 4.22214834,15.5523151 C4.22358765,15.5534297 4.2250303,15.55454 4.22647627,15.555646 L11.0872776,20.8031356 C11.6250734,21.2144692 12.371757,21.2145375 12.909628,20.8033023 L19.7677785,15.559828 C20.1693192,15.2528257 20.2459576,14.6784381 19.9389553,14.2768974 C19.9376429,14.2751809 19.9363245,14.2734691 19.935,14.2717619 L19.935,14.2717619 C19.6266937,13.8743807 19.0546209,13.8021712 18.6572397,14.1104775 C18.654352,14.112718 18.6514778,14.1149757 18.6486172,14.1172508 L12.9235044,18.6705218 C12.377022,19.1051477 11.6029199,19.1052208 11.0563554,18.6706981 Z" fill="#ffffff" opacity="0.3"></path>
+                                    </g>
+                                </svg>
+                            </span>
                         </div>
-                    </div>
-                    <div class="card card-flush" style="background-color: #fff;">
-                        <div class="card-body">
+                        <div class="card-body align-items-center">
 
-                            <div class="d-flex flex-wrap">
+                            <span class="fs-2hx fw-bold text-white mt-2 me-2 lh-1 ls-n2" id="trainees">@isset($permissionCount) {{ $permissionCount }} @endisset</span>
 
-                                <div class="position-relative d-flex flex-center h-175px w-175px me-15 mb-7">
-                                    <div
-                                        class="position-absolute translate-middle start-50 top-50 d-flex flex-column flex-center">
-                                        <span class="fs-2qx fw-bold" id="total_tasks">12</span>
-                                        <span class="fs-6 fw-semibold text-center text-gray-400">Total Tasks</span>
-                                    </div>
-                                    <canvas id="total_tasks_chart"
-                                        style="display: block; box-sizing: border-box; height: 175px; width: 175px;"
-                                        width="175" height="175"></canvas>
-                                </div>
-
-
-                                <div class="d-flex flex-column justify-content-center flex-row-fluid pe-11 mb-5">
-
-                                    <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
-                                        <div class="bullet bg-primary me-3"></div>
-                                        <div class="text-gray-400">Active</div>
-                                        <div class="ms-auto fw-bold text-gray-700" id="active_tasks">12</div>
-                                    </div>
-
-
-                                    <div class="d-flex fs-6 fw-semibold align-items-center mb-3">
-                                        <div class="bullet bg-success me-3"></div>
-                                        <div class="text-gray-400">Inactive</div>
-                                        <div class="ms-auto fw-bold text-gray-700" id="inactive_tasks">0</div>
-                                    </div>
-
-                                </div>
-
-                            </div>
+                            <span class="text-white opacity-75 pt-1 fw-semibold fs-6 d-block">Total
+                                Permissions</span>
 
                         </div>
                     </div>
@@ -280,3 +125,5 @@
         </div>
     </div>
 @endsection
+
+

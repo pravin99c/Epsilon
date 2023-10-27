@@ -5,7 +5,11 @@
             <!--begin: Pic-->
             <div class="me-7 mb-4">
                 <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
-                    <img src="{{ asset('storage/'.auth()->user()->profile_picture) }}" alt="image">
+                    @if(auth()->user()->profile_picture != null)
+                        <img src="{{ asset('storage/'.auth()->user()->profile_picture) }}" alt="image">
+                    @else
+                        <span class="symbol-label fs-2x fw-semibold text-primary bg-light-success">{{ auth()->user()->first_name[0]}}</span>
+                    @endif
                     <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px"></div>
                 </div>
             </div>
@@ -18,7 +22,7 @@
                     <div class="d-flex flex-column">
                         <!--begin::Name-->
                         <div class="d-flex align-items-center me-5 mb-2">
-                            <span class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">{{ ucfirst(auth()->user()->first_name) }} {{ ucfirst(auth()->user()->last_name ) }}</span>
+                            <span class="text-gray-900 text-hover-primary fs-2 fw-bold me-1 ls-2">{{ ucfirst(auth()->user()->first_name) }} {{ ucfirst(auth()->user()->last_name ) }}</span>
                         </div>
                         <!--end::Name-->
                         <!--begin::Info-->
@@ -26,15 +30,15 @@
                             <div class="py-5">
                                 <div class="d-flex align-items-center mb-2">
                                     <span class="font-weight-bold mr-2 me-5 w-100px">Email:</span>
-                                    <span class="pe-2 text-muted text-hover-primary">{{ auth()->user()->email }}</span>
+                                    <span class="pe-2 text-muted text-hover-primary ls-2">{{ auth()->user()->email }}</span>
                                 </div>
                                 <div class="d-flex align-items-center mb-2">
                                     <span class="font-weight-bold mr-2 me-5 w-100px">Phone:</span>
-                                    <span class="text-muted">{{ auth()->user()->phone_number ?? '-' }}</span>
+                                    <span class="text-muted ls-2">{{ auth()->user()->phone_number ?? '-' }}</span>
                                 </div>
                                 <div class="d-flex align-items-center mb-2">
                                     <span class="font-weight-bold mr-2 me-5 w-100px">DOB:</span>
-                                    <span class="text-muted">{{ auth()->user()->dob ?? '-' }}</span>
+                                    <span class="text-muted ls-2">{{ auth()->user()->dob ?? '-' }}</span>
                                 </div>
                             </div>
                         </div>

@@ -4817,7 +4817,7 @@ box-shadow: var(--bs-pagination-focus-box-shadow);
 .page-link.active, .active > .page-link {
 z-index: 3;
 color: var(--bs-pagination-active-color);
-background-color: var(--bs-red);
+background-color: var(--kt-primary);
 border-color: var(--bs-pagination-active-border-color);
 }
 .page-link.disabled, .disabled > .page-link {
@@ -31031,13 +31031,10 @@ mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' vi
 transition: color 0.2s ease;
 color: var(--bs-red);
 }
-.menu-state-color .menu-item .menu-link.active .menu-title {
-color: var(--bs-red);
-}
+
 .menu-state-color .menu-item .menu-link.active .menu-icon,
 .menu-state-color .menu-item .menu-link.active .menu-icon .svg-icon,
-.menu-state-color .menu-item .menu-link.active .menu-icon i {
-color: var(--bs-red);}
+.menu-state-color .menu-item .menu-link.active .menu-icon i {}
 
 .menu-state-color .menu-item .menu-link.active .menu-bullet .bullet {
 background-color: var(--kt-menu-link-color-active);
@@ -48808,7 +48805,7 @@ background-color: var(--kt-body-bg) !important;
 @media (min-width: 992px) {
 body:not([data-kt-app-toolbar-fixed=true]) .app-toolbar {
   height: auto;
-  background-color: #ffffff;
+  background-color: var(--kt-app-header-base-bg-color);
   transform: none;
   border-top: 0;
   border-bottom: 0;

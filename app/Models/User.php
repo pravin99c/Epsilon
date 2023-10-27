@@ -34,15 +34,17 @@ class User extends Authenticatable implements JWTSubject
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    protected static function boot() {
+
+        parent::boot();
+
+        self::saved(function($model) {
+            $modelName = get_class($model);
+            if(Cache::has($modelName .':'.$model->id)) {
+                Cache::delete($modelName .':'.$model->id);
+            }
+        });
+    }
 
     public function getJWTIdentifier()
     {

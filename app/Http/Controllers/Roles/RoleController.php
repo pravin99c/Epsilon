@@ -47,7 +47,10 @@ class RoleController extends Controller
             "recordsTotal"=> $count,
             "recordsFiltered"=> $count,
         ];
-        $data['data'] = $role_data->where('name', '!=' ,'admin')->skip($start)->take((int)$length)->get();;
+        $data['data'] = $role_data->where('name', '!=' ,'admin')->skip($start)->take((int)$length)->get()->map(function ($record) {
+            $record->role_id = encrypt($record->id);
+            return $record;
+        });
         return response()->json($data);
     }
 
@@ -78,7 +81,7 @@ class RoleController extends Controller
     }
 
     public function edit($id) {
-        $role = Role::find($id);
+        $role = Role::find(decrypt($id));
         $roleHasPermissions = collect($role->permissions)->pluck('id')->toArray();
         $permissions = Permission::all()->groupBy('group')->map(function ($groupPermissions) {
             return $groupPermissions->map(function ($permission) {
@@ -106,13 +109,13 @@ class RoleController extends Controller
     }
 
     public function show($id){
-        $role = Role::find($id);
+        $role = Role::find(decrypt($id));
         $rolePermission = $role->permissions;
         return view('roles.view', compact('role', 'rolePermission'));
     }
 
     public function delete($id) {
-        $role = Role::find($id);
+        $role = Role::find(decrypt($id));
         $role->delete();
         return view('roles.index')->with('message', 'Role deleted successfully');
     }

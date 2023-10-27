@@ -75,7 +75,7 @@
                 </div>
                 <!--end:Menu item-->
                 <div data-kt-menu-trigger="click"
-                    class="menu-item {{ Route::currentRouteName() == 'roles.view' ? 'show hover' : '' }} {{ Route::currentRouteName() == 'permissions.view' ? 'here show' : '' }} menu-accordion">
+                    class="menu-item {{ (strpos(Route::currentRouteName(), 'roles') === 0 ) ? 'show hover' : '' }} {{ (strpos(Route::currentRouteName(), 'permissions') === 0 ) ? 'here show' : '' }} menu-accordion">
 
                     <span class="menu-link">
                         <span class="menu-icon">
@@ -102,7 +102,7 @@
 
                         <div class="menu-item">
 
-                            <a class="menu-link {{ Route::currentRouteName() == 'roles.view' ? 'active' : '' }}"
+                            <a class="menu-link {{ (strpos(Route::currentRouteName(), 'roles') === 0 ) ? 'active' : '' }}"
                                 href="{{ route('roles.view') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
@@ -115,7 +115,7 @@
 
                         <div class="menu-item">
 
-                            <a class="menu-link {{ Route::currentRouteName() == 'permissions.view' ? 'active' : '' }}"
+                            <a class="menu-link {{ (strpos(Route::currentRouteName(), 'permissions') === 0 ) ? 'active' : '' }}"
                                 href="{{ route('permissions.view') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
@@ -140,10 +140,10 @@
                 </div>
                 <!--end:Menu item-->
                 <div data-kt-menu-trigger="click"
-                    class="menu-item menu-accordion {{ Route::currentRouteName() == 'users' ? 'here' : '' }}">
+                    class="menu-item menu-accordion {{ (strpos(Route::currentRouteName(), 'users') === 0 ) ? 'here' : '' }}">
                     <div class="menu-item">
                         <!--begin:Menu link-->
-                        <a href="{{ route('users.view') }}" class="menu-link {{ Route::currentRouteName() == 'users' ? 'active' : '' }}">
+                        <a href="{{ route('users.view') }}" class="menu-link {{ (strpos(Route::currentRouteName(), 'users') === 0 ) ? 'active' : '' }}">
                             <span class="menu-icon">
                                 <span class="svg-icon svg-icon-2">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
