@@ -141,6 +141,7 @@
         </div>
     </div>
     <!--end::Content wrapper-->
+    <input type="hidden" name="userPermission" value="{{ auth()->user()->can('User edit') ? 1 : 0 }}{{ auth()->user()->can('User delete') ? 1 : 0 }}">
 @endsection
 
 @section('script')

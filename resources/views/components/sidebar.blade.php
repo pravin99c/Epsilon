@@ -74,70 +74,65 @@
                     </div>
                 </div>
                 <!--end:Menu item-->
-                <div data-kt-menu-trigger="click"
-                    class="menu-item {{ (strpos(Route::currentRouteName(), 'roles') === 0 ) ? 'show hover' : '' }} {{ (strpos(Route::currentRouteName(), 'permissions') === 0 ) ? 'here show' : '' }} menu-accordion">
+                @canany(['Role list', 'Permission list'])
+                    <div data-kt-menu-trigger="click" class="menu-item {{ (strpos(Route::currentRouteName(), 'roles') === 0 ) ? 'show hover' : '' }} {{ (strpos(Route::currentRouteName(), 'permissions') === 0 ) ? 'here show' : '' }} menu-accordion">
 
-                    <span class="menu-link">
-                        <span class="menu-icon">
+                        <span class="menu-link">
+                            <span class="menu-icon">
 
-                            <span class="svg-icon svg-icon-2">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M6.28548 15.0861C7.34369 13.1814 9.35142 12 11.5304 12H12.4696C14.6486 12 16.6563 13.1814 17.7145 15.0861L19.3493 18.0287C20.0899 19.3618 19.1259 21 17.601 21H6.39903C4.87406 21 3.91012 19.3618 4.65071 18.0287L6.28548 15.0861Z"
-                                        fill="currentColor"></path>
-                                    <rect opacity="0.3" x="8" y="3" width="8" height="8" rx="4"
-                                        fill="currentColor"></rect>
-                                </svg>
+                                <span class="svg-icon svg-icon-2">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M6.28548 15.0861C7.34369 13.1814 9.35142 12 11.5304 12H12.4696C14.6486 12 16.6563 13.1814 17.7145 15.0861L19.3493 18.0287C20.0899 19.3618 19.1259 21 17.601 21H6.39903C4.87406 21 3.91012 19.3618 4.65071 18.0287L6.28548 15.0861Z"
+                                            fill="currentColor"></path>
+                                        <rect opacity="0.3" x="8" y="3" width="8" height="8" rx="4"
+                                            fill="currentColor"></rect>
+                                    </svg>
+                                </span>
+
                             </span>
-
+                            <span class="menu-title">Roles &amp; Permissions</span>
+                            <span class="menu-arrow"></span>
                         </span>
-                        <span class="menu-title">Roles &amp; Permissions</span>
-                        <span class="menu-arrow"></span>
-                    </span>
+                        <div class="menu-sub menu-sub-accordion" kt-hidden-height="81">
+                            @can('Role list')
+                                <div class="menu-item">
+                                    <a class="menu-link {{ (strpos(Route::currentRouteName(), 'roles') === 0 ) ? 'active' : '' }}"
+                                        href="{{ route('roles.view') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Roles</span>
+                                    </a>
+                                </div>
+                            @endcan
+                            @can('Permission list')
+                                <div class="menu-item">
 
+                                    <a class="menu-link {{ (strpos(Route::currentRouteName(), 'permissions') === 0 ) ? 'active' : '' }}"
+                                        href="{{ route('permissions.view') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Permissions</span>
+                                    </a>
 
-                    <div class="menu-sub menu-sub-accordion {{ Route::currentRouteName() == 'roles.view' ? 'here show' : '' }}"
-                        kt-hidden-height="81">
-
-                        <div class="menu-item">
-
-                            <a class="menu-link {{ (strpos(Route::currentRouteName(), 'roles') === 0 ) ? 'active' : '' }}"
-                                href="{{ route('roles.view') }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">Roles</span>
-                            </a>
-
-                        </div>
-
-
-                        <div class="menu-item">
-
-                            <a class="menu-link {{ (strpos(Route::currentRouteName(), 'permissions') === 0 ) ? 'active' : '' }}"
-                                href="{{ route('permissions.view') }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">Permissions</span>
-                            </a>
-
-                        </div>
-
-                        <div class="menu-inner flex-column collapse" id="kt_app_sidebar_menu_dashboards_collapse">
+                                </div>
+                            @endcan
                         </div>
                     </div>
-
-                </div>
+                @endcanany
                 <!--begin:Menu item-->
-                <div class="menu-item pt-5">
-                    <!--begin:Menu content-->
-                    <div class="menu-content">
-                        <span class="menu-heading text-uppercase">USERS</span>
+                @can('User list')
+                    <div class="menu-item pt-5">
+                        <!--begin:Menu content-->
+                        <div class="menu-content">
+                            <span class="menu-heading text-uppercase">USERS</span>
+                        </div>
+                        <!--end:Menu content-->
                     </div>
-                    <!--end:Menu content-->
-                </div>
+                @endcan
                 <!--end:Menu item-->
                 <div data-kt-menu-trigger="click"
                     class="menu-item menu-accordion {{ (strpos(Route::currentRouteName(), 'users') === 0 ) ? 'here' : '' }}">

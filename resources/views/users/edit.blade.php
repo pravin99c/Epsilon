@@ -87,7 +87,7 @@
                                             <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
                                                 <i class="bi bi-pencil-fill fs-7"></i>
                                                 <!--begin::Inputs-->
-                                                <input type="file" name="profile_picture" accept=".png, .jpg, .jpeg" />
+                                                <input type="file" name="profile_picture" class="text-input" accept=".png, .jpg, .jpeg" />
                                                 <input type="hidden" name="avatar_remove" />
                                                 <!--end::Inputs-->
                                             </label>
@@ -118,7 +118,7 @@
                                         <div class="row">
                                             <!--begin::Col-->
                                             <div class="col-lg-6 fv-row">
-                                                <input type="text" name="first_name" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="First name" value="{{ auth()->user()->first_name }}" />
+                                                <input type="text" name="first_name" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 text-input" placeholder="First name" value="{{ auth()->user()->first_name }}" />
                                                 @error('first_name')
                                                     <x-input-label for="first_name" :value="$message"> </x-input-label>
                                                 @enderror
@@ -126,7 +126,7 @@
                                             <!--end::Col-->
                                             <!--begin::Col-->
                                             <div class="col-lg-6 fv-row">
-                                                <input type="text" name="last_name" class="form-control form-control-lg form-control-solid" placeholder="Last name" value="{{ auth()->user()->last_name }}" />
+                                                <input type="text" name="last_name" class="form-control form-control-lg form-control-solid text-input" placeholder="Last name" value="{{ auth()->user()->last_name }}" />
                                                 @error('last_name')
                                                     <x-input-label for="last_name" :value="$message"> </x-input-label>
                                                 @enderror
@@ -148,7 +148,7 @@
                                     <!--end::Label-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8 fv-row">
-                                        <input type="tel" name="phone_number" class="form-control form-control-lg form-control-solid" placeholder="Phone number"  value="{{ auth()->user()->phone_number }}" />
+                                        <input type="tel" name="phone_number" class="form-control form-control-lg form-control-solid text-input" placeholder="Phone number"  value="{{ auth()->user()->phone_number }}" />
                                         @error('phone_number')
                                             <x-input-label for="phone_number" :value="$message"> </x-input-label>
                                         @enderror
@@ -175,7 +175,7 @@
                                                 </svg>
                                             </span>
                                             <!--end::Svg Icon-->
-                                            <input class="form-control form-control-solid ps-12 flatpickr-input active" name="dob" placeholder="Pick a date" id="kt_datepicker_1" type="text" readonly="readonly" value="{{ auth()->user()->dob }}">
+                                            <input class="form-control form-control-solid ps-12 flatpickr-input active text-input" name="dob" placeholder="Pick a date" id="kt_datepicker_1" type="text" readonly="readonly" value="{{ auth()->user()->dob }}">
                                             @error('dob')
                                                 <x-input-label for="dob" :value="$message"> </x-input-label>
                                             @enderror
@@ -194,7 +194,7 @@
                                     <!--end::Label-->
                                     <!--begin::Col-->
                                     <div class="col-lg-8 fv-row">
-                                        <select name="gender" aria-label="Select a Gender" data-control="select2" data-placeholder="Select a Gender..." class="form-select form-select-solid form-select-lg fw-semibold">
+                                        <select name="gender" aria-label="Select a Gender" data-control="select2" data-placeholder="Select a Gender..." class="form-select form-select-solid form-select-lg fw-semibold select-input" onchange="handleSelectChange(this,0)">
                                             <option value="">Select a Gender...</option>
                                             <option value="Male" {{ (auth()->user()->gender == 'Male') ? 'selected':''}} >Male</option>
                                             <option value="Female" {{ (auth()->user()->gender == 'Female') ? 'selected':''}}>Female</option>
@@ -212,7 +212,7 @@
                             <!--begin::Actions-->
                             <div class="card-footer d-flex justify-content-end py-6 px-9">
                                 <x-button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</x-button>
-                                <x-button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">Save Changes</x-button>
+                                <x-button type="submit" class="btn btn-primary" id="users_submit_btn" disabled>Save Changes</x-button>
                             </div>
                             <!--end::Actions-->
                         </form>
@@ -230,5 +230,36 @@
 @section('script')
     <script>
         $("#kt_datepicker_1").flatpickr();
+
+        var textInputs = document.querySelectorAll('.text-input');
+        var selectInputs = document.querySelectorAll('.select-input');
+        var saveButton = document.getElementById('users_submit_btn');
+
+        // Store original values for text inputs and select inputs
+        var originalTextValues = Array.from(textInputs).map(function(input) {
+            return input.value;
+        });
+
+        var originalSelectValues = Array.from(selectInputs).map(function(input) {
+            return input.value;
+        });
+        // Add event listeners to text inputs
+        textInputs.forEach(function(textInput, index) {
+            textInput.addEventListener('input', function() {
+                toggleButtonState(textInput, originalTextValues[index]);
+            });
+        });
+
+        function handleSelectChange(input,index) {
+            toggleButtonState(input,originalSelectValues[index]);
+        }
+
+        // Function to toggle the button state based on input values
+        function toggleButtonState(input, originalValue) {
+            // Check if input value is different from the original
+            var hasChanges = input.value !== originalValue;
+            // Enable or disable the button based on changes
+            saveButton.disabled = !hasChanges;
+        }
     </script>
 @endsection

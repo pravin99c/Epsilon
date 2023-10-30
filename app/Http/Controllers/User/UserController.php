@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
 class UserController extends Controller
@@ -78,7 +79,7 @@ class UserController extends Controller
             ]);
 
             $user->assignRole($request->role ?? 0);
-            return view('users.index')->with('message', 'User created successfully');
+            return redirect()->route('users.index')->with('message', 'User created successfully');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -116,5 +117,14 @@ class UserController extends Controller
     public function userView($id) {
         $user = User::findWithCache(decrypt($id));
         return view('users.view', compact('user'));
+    }
+
+    public function delete($id) {
+        $user = User::find(decrypt($id));
+        if (! empty($user)) {
+            Log::info('user',[$user]);
+            $user->delete();
+        }
+        return response()->json(["status" => true]);
     }
 }

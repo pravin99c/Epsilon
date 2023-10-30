@@ -99,7 +99,7 @@
                                         <!--end::Label-->
                                         <!--begin::Col-->
                                         <div class="col-lg-10 fv-row fv-plugins-icon-container">
-                                            <input type="email" name="email" class="form-control form-control-lg form-control-solid" placeholder="Email Address" value="{{ old('email') }}" autocomplete="off">
+                                            <input type="email" name="email" class="form-control form-control-lg form-control-solid" placeholder="Email Address" value="{{ old('email') }}" autocomplete="false" readonly onfocus="this.removeAttribute('readonly');">
                                         <div class="fv-plugins-message-container invalid-feedback"></div></div>
                                         <!--end::Col-->
                                     </div>

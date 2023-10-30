@@ -44,6 +44,13 @@ class User extends Authenticatable implements JWTSubject
                 Cache::delete($modelName .':'.$model->id);
             }
         });
+
+        self::deleted(function($model) {
+            $modelName = get_class($model);
+            if(Cache::has($modelName .':'.$model->id)) {
+                Cache::delete($modelName .':'.$model->id);
+            }
+        });
     }
 
     public function getJWTIdentifier()

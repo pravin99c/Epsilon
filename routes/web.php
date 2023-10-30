@@ -64,6 +64,7 @@ Route::group(['prefix' => 'users', 'middleware' => 'auth', 'as' => 'users.'], fu
     Route::post('/', [UserController::class, 'index'])->name('index');
     Route::post('/create', [UserController::class, 'create'])->name('create');
     Route::put('/update/{id}', [UserController::class, 'update'])->name('update');
+    Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('delete');
 });
 
 

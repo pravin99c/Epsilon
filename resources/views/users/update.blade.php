@@ -78,12 +78,12 @@
                                             <div class="row">
                                                 <!--begin::Col-->
                                                 <div class="col-lg-6 fv-row fv-plugins-icon-container">
-                                                    <input type="text" name="first_name" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="First name" value="{{ isset($user) ? $user->first_name : old('first_name') }}">
+                                                    <input type="text" name="first_name" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0 text-input" placeholder="First name" value="{{ isset($user) ? $user->first_name : old('first_name') }}">
                                                 <div class="fv-plugins-message-container invalid-feedback"></div></div>
                                                 <!--end::Col-->
                                                 <!--begin::Col-->
                                                 <div class="col-lg-6 fv-row fv-plugins-icon-container">
-                                                    <input type="text" name="last_name" class="form-control form-control-lg form-control-solid" placeholder="Last name" value="{{ isset($user) ? $user->last_name : old('last_name') }}">
+                                                    <input type="text" name="last_name" class="form-control form-control-lg form-control-solid text-input" placeholder="Last name" value="{{ isset($user) ? $user->last_name : old('last_name') }}">
                                                 <div class="fv-plugins-message-container invalid-feedback"></div></div>
                                                 <!--end::Col-->
                                             </div>
@@ -100,7 +100,7 @@
                                         <!--end::Label-->
                                         <!--begin::Col-->
                                         <div class="col-lg-10 fv-row fv-plugins-icon-container">
-                                            <input type="email" name="email" class="form-control form-control-lg form-control-solid" placeholder="Email Address" value="{{ isset($user) ? $user->email : old('email') }}" autocomplete="off" readonly>
+                                            <input type="email" name="email" class="form-control form-control-lg form-control-solid text-input" placeholder="Email Address" value="{{ isset($user) ? $user->email : old('email') }}" autocomplete="off" readonly>
                                         <div class="fv-plugins-message-container invalid-feedback"></div></div>
                                         <!--end::Col-->
                                     </div>
@@ -113,7 +113,7 @@
                                         <!--end::Label-->
                                         <!--begin::Col-->
                                         <div class="col-lg-10 fv-row fv-plugins-icon-container">
-                                            <input type="tel" name="phone_number" class="form-control form-control-lg form-control-solid" placeholder="Phone Number" value="{{ isset($user) ? $user->phone_number : old('phone_number') }}">
+                                            <input type="tel" name="phone_number" class="form-control form-control-lg form-control-solid text-input" placeholder="Phone Number" value="{{ isset($user) ? $user->phone_number : old('phone_number') }}">
                                         <div class="fv-plugins-message-container invalid-feedback"></div></div>
                                         <!--end::Col-->
                                     </div>
@@ -135,7 +135,7 @@
                                                     </svg>
                                                 </span>
                                                 <!--end::Svg Icon-->
-                                                <input class="form-control form-control-solid ps-12 flatpickr-input active" name="dob" placeholder="Pick a date" id="date_of_birth" type="text" readonly="readonly" value="{{ isset($user) ? $user->dob : old('dob') }}">
+                                                <input class="form-control form-control-solid ps-12 flatpickr-input active text-input" name="dob" placeholder="Pick a date" id="date_of_birth" type="text" readonly="readonly" value="{{ isset($user) ? $user->dob : old('dob') }}">
                                                 @error('dob')
                                                     <x-input-label for="dob" :value="$message"> </x-input-label>
                                                 @enderror
@@ -152,7 +152,7 @@
                                         <!--end::Label-->
                                         <!--begin::Col-->
                                         <div class="col-lg-10 fv-row">
-                                            <select name="gender" aria-label="Select a Gender" data-control="select2" data-placeholder="Select a Gender..." class="form-select form-select-solid form-select-lg fw-semibold">
+                                            <select name="gender" aria-label="Select a Gender" data-control="select2" data-placeholder="Select a Gender..." class="form-select form-select-solid form-select-lg fw-semibold select-input" onchange="handleSelectChange(this,0)">
                                                 <option value="">Select a Gender...</option>
                                                 <option value="Male" @if($user->gender == 'Male') selected @endif>Male</option>
                                                 <option value="Female" @if($user->gender == 'Female') selected @endif>Female</option>
@@ -175,7 +175,7 @@
                                         <!--begin::Col-->
 
                                         <div class="col-lg-10 fv-row">
-                                            <select name="role" aria-label="Select a Role" data-control="select2" data-placeholder="Select a Role..." class="form-select form-select-solid form-select-lg fw-semibold">
+                                            <select name="role" id="role" aria-label="Select a Role" data-control="select2" data-placeholder="Select a Role..." class="form-select form-select-solid form-select-lg fw-semibold select-input" onchange="handleSelectChange(this,1)">
                                                 <option value="">Select a Role...</option>
                                                 @isset($roles)
                                                     @foreach($roles as $role)
@@ -189,10 +189,9 @@
                                         </div>
                                         <!--end::Col-->
                                     </div>
-
                                     <div class="card-footer d-flex justify-content-end py-6 px-9">
                                         <x-button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</x-button>
-                                        <x-button type="submit" class="btn btn-primary" id="users_submit_btn">Save Changes</x-button>
+                                        <x-button type="submit" class="btn btn-primary" id="users_submit_btn" disabled>Save Changes</x-button>
                                     </div>
                                 </div>
                             </form>
@@ -215,5 +214,36 @@
 <script src="{{ asset('assets/js/users/update_validation.js') }}"></script>
 <script>
     $("#date_of_birth").flatpickr();
+
+    var textInputs = document.querySelectorAll('.text-input');
+    var selectInputs = document.querySelectorAll('.select-input');
+    var saveButton = document.getElementById('users_submit_btn');
+
+    // Store original values for text inputs and select inputs
+    var originalTextValues = Array.from(textInputs).map(function(input) {
+        return input.value;
+    });
+
+    var originalSelectValues = Array.from(selectInputs).map(function(input) {
+        return input.value;
+    });
+    // Add event listeners to text inputs
+    textInputs.forEach(function(textInput, index) {
+        textInput.addEventListener('input', function() {
+            toggleButtonState(textInput, originalTextValues[index]);
+        });
+    });
+
+    function handleSelectChange(input,index) {
+        toggleButtonState(input,originalSelectValues[index]);
+    }
+
+    // Function to toggle the button state based on input values
+    function toggleButtonState(input, originalValue) {
+        // Check if input value is different from the original
+        var hasChanges = input.value !== originalValue;
+        // Enable or disable the button based on changes
+        saveButton.disabled = !hasChanges;
+    }
 </script>
 @endsection

@@ -83,7 +83,7 @@
 
                                         <div class="col-xl-10 fv-row fv-plugins-icon-container">
 
-                                            <input type="text" class="form-control form-control-solid"
+                                            <input type="text" class="form-control form-control-solid text-input"
                                                 placeholder="Enter Role Name" name="name" value="{{ isset($role->name) ? $role->name : old('name') }}">
 
                                             <span class="text-danger" id="name"></span>
@@ -122,7 +122,7 @@
                                                             <div class="checkbox-list">
                                                                 @foreach ($permission as $value)
                                                                     <label class="checkbox text-gray-900 me-5 my-2 checkbox-success">
-                                                                        <input type="checkbox" name="permissions[]" class="form-check-input permission_{{ $group }}" value="{{ $value['id'] }}"
+                                                                        <input type="checkbox" name="permissions[]" class="form-check-input checkbox permission_{{ $group }}" value="{{ $value['id'] }}"
                                                                         {{ isset($role) ? (in_array($value['id'], $roleHasPermissions) ? 'checked' : '') : '' }} />
                                                                         <span>{{ $value['name'] }}</span>
                                                                     </label>
@@ -136,7 +136,7 @@
                                     </div>
                                     <div class="card-footer d-flex justify-content-end py-6 px-9">
                                         <x-button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</x-button>
-                                        <x-button type="submit" class="btn btn-primary" id="btn_role_and_permission">Save Changes</x-button>
+                                        <x-button type="submit" class="btn btn-primary" id="btn_role_and_permission" disabled>Save Changes</x-button>
                                     </div>
                                 </div>
                             </form>
@@ -238,5 +238,53 @@
                 }
             });
         });
+
+
+        // Get all checkboxes, text inputs, and the button
+        var checkboxes = document.querySelectorAll('.checkbox');
+        var textInputs = document.querySelectorAll('.text-input');
+        var saveButton = document.getElementById('btn_role_and_permission');
+
+        // Store original states and values in arrays
+        var originalCheckboxStates = Array.from(checkboxes).map(function(checkbox) {
+            return checkbox.checked;
+        });
+
+        var originalTextValues = Array.from(textInputs).map(function(textInput) {
+            return textInput.value;
+        });
+
+        // Add event listeners to checkboxes and text inputs
+        checkboxes.forEach(function(checkbox, index) {
+            checkbox.addEventListener('change', function() {
+                toggleButtonState();
+            });
+        });
+
+        textInputs.forEach(function(textInput, index) {
+            textInput.addEventListener('input', function() {
+                toggleButtonState();
+            });
+        });
+
+        // Function to toggle the button state based on checkbox and text input states
+        function toggleButtonState() {
+            // Check if any checkbox state or text input value is different from the original
+            var hasChanges = false;
+
+            checkboxes.forEach(function(checkbox, index) {
+                if (checkbox.checked !== originalCheckboxStates[index]) {
+                    hasChanges = true;
+                }
+            });
+
+            textInputs.forEach(function(textInput, index) {
+                if (textInput.value !== originalTextValues[index]) {
+                    hasChanges = true;
+                }
+            });
+            // Enable or disable the button based on changes
+            saveButton.disabled = !hasChanges;
+        }
     </script>
 @endsection
